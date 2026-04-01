@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: myapp
-          image: aorko16/myapp:latest  # dev always uses latest
+          image: aorko16/ronco:latest  # dev always uses latest
           ports:
             - containerPort: 80
           resources:
