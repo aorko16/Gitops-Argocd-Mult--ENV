@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: myapp
-          image: aorko16/myapp:v1.0.0  # qa uses specific version tag
+          image: aorko16/ronco:latest  # qa uses specific version tag
           ports:
             - containerPort: 80
           resources:
