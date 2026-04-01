@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: myapp
-          image: aorko16/myapp:v1.0.0  # prod uses exact stable version
+          image: aorko16/ronco:latest  # prod uses exact stable version
           ports:
             - containerPort: 80
           resources:
