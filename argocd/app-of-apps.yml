@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: gitops-demo
+  namespace: argocd
+spec:
+  description: Multi-environment GitOps project
+  sourceRepos:
+    - https://github.com/aorko16/Gitops-Argocd-Mult--ENV.git
+  destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+    - namespace: dev
+      server: https://kubernetes.default.svc
+    - namespace: qa
+      server: https://kubernetes.default.svc
+    - namespace: prod
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: "argoproj.io"
+      kind: Application
+    - group: "apps"
+      kind: Deployment
+    - group: "apps"
+      kind: ReplicaSet
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: Pod
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps
+  namespace: argocd
+spec:
+  project: gitops-demo
+  source:
+    repoURL: https://github.com/aorko16/Gitops-Argocd-Mult--ENV.git
+    targetRevision: main
+    path: argocd/apps              # Watches this folder for child apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
